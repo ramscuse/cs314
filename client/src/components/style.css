@@ -1,0 +1,14 @@
+.unit-dropdown-menu {
+    padding: 1rem;
+}
+
+.addPlace-Button {
+    min-width: 20%;
+}
+
+.AddUnit-Button {
+    min-width: 90%;
+    margin-right: 5%;
+    margin-left: 5%;
+    margin-bottom: 5%;
+}

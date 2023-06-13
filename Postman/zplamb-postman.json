@@ -1,0 +1,121 @@
+{
+	"info": {
+		"_postman_id": "0831985b-f1ed-468f-85bd-3b4de032caa6",
+		"name": "314-api-tests",
+		"description": "This collection contains tests for the various API requests in the CS314 webapp.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "config",
+			"item": [
+				{
+					"name": "Config Post",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "30838c94-46c8-4c7e-b148-c6f08eec80c1",
+								"exec": [
+									"pm.test(\"Response is HTTP200 status\", () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Server-side team name is correct\", () => {",
+									"    const response = pm.response.json();",
+									"    const expectedTeamName = pm.collectionVariables.get(\"TEAM_NAME\");",
+									"    pm.expect(response.serverName).to.eql(expectedTeamName);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"_postman_id": "58ab84a1-a1ec-406b-aeb7-43cfb3a927eb",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"requestType\": \"config\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BASE_URL}}/api/config",
+						"description": "Testing the result of Config Post requests."
+					},
+					"response": []
+				}
+			],
+			"_postman_id": "7e97a1fe-07df-45f0-be02-4d498382dd29"
+		},
+		{
+			"name": "distances",
+			"item": [
+				{
+					"name": "Distance Post",
+					"_postman_id": "32fe5b9c-456e-4739-a4be-7098907ef3f9",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"requestType\"    : \"distances\",\n  \"places\"         : [{\"name\": \"Mount Everest\", \"latitude\": \"27.98791\", \"longitude\": \"86.92529\"},\n                      {\"name\": \"Death Valley\", \"latitude\": \"36.24662\", \"longitude\": \"-116.81700\"},\n                      {\"name\": \"Kola Superdeep Borehole\", \"latitude\": \"69.39593\", \"longitude\": \"30.60886\"},\n\t\t                  {\"name\": \"Burj Khalifa\", \"latitude\": \"25.19720\", \"longitude\": \"55.27420\"}],\n  \"earthRadius\"    : 3959.0\n}",
+							"options": {
+								"raw": {}
+							}
+						},
+						"url": "{{BASE_URL}}/api/distances"
+					},
+					"response": []
+				}
+			],
+			"_postman_id": "beae2178-d4b2-4e73-b1cd-152f721be4a8"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "92865430-9bcb-4793-816d-24b6c93bd8c1",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "1e86fac5-905a-4661-a1b2-b99d9d8bcaa0",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "e21f8cbd-2594-46aa-adbe-4a96d260c792",
+			"key": "BASE_URL",
+			"value": "http://localhost:8000",
+			"type": "string"
+		},
+		{
+			"id": "344d13df-72a7-4e66-9915-16e2850c10aa",
+			"key": "TEAM_NAME",
+			"value": "t25 Ruis Ali",
+			"type": "string"
+		}
+	]
+}

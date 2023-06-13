@@ -1,0 +1,170 @@
+{
+	"info": {
+		"_postman_id": "12c12f65-12cb-459e-8dad-4f056e308217",
+		"name": "postman-collection",
+		"description": "This is a template for postman collections in CS314.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Config Post",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f73a17ee-03c0-4798-b942-6e00c4c82696",
+						"exec": [
+							"pm.test(\"Status test\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"JSON test\", function () {\r",
+							"    pm.response.to.be.withBody;\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"requestType test\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.requestType).to.eql(\"config\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"serverName test\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.serverName).to.be.a(\"String\");\r",
+							"    pm.expect(jsonData.serverName).to.be.match(/[tT][0-9][0-9] .*/)\r",
+							"});\r",
+							"\r",
+							"pm.test(\"features test\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.features).to.not.equal(null);\r",
+							"    pm.expect(jsonData.features).to.contain(\"config\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test('Schema test', function () {\r",
+							"    var Ajv = require(\"ajv\");\r",
+							"    var ajv = new Ajv({logger: console});\r",
+							"    var schema = {\r",
+							"        \"properties\":{\r",
+							"            \"serverName\": {\r",
+							"                \"type\": \"string\",\r",
+							"                \"minlength\":3\r",
+							"            },\r",
+							"            \"requestType\": {\r",
+							"                \"type\":\"string\"\r",
+							"            },\r",
+							"            \"features\": {\r",
+							"                \"type\":\"array\"\r",
+							"            }\r",
+							"        }\r",
+							"    };\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(ajv.validate(schema,jsonData)).to.be.true;\r",
+							"    \r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "8c1f86c0-a83c-4131-9460-9b60dea9ff02",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"serverName\": \"t25 Ruis Ali\",\r\n    \"requestType\":\"config\"\r\n}\r\n"
+				},
+				"url": "{{BASE_URL}}/api/config"
+			},
+			"response": []
+		},
+		{
+			"name": "Distances",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5fd0ae2a-6021-4f4e-8630-ef334c3be2a8",
+						"exec": [
+							"pm.test(\"Status test\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"return type matches request type\", function() {\r",
+							"    const responseJSON = pm.response.json();\r",
+							"    pm.expect(responseJSON.requestType).to.eql(\"distances\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"earth radius sent matches earth radius in response\", function() {\r",
+							"    const responseJSON = pm.response.json();\r",
+							"    pm.expect(responseJSON.earthRadius).to.eql(6371);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"distances correctly returned\", function() {\r",
+							"    const responseJSON = pm.response.json();\r",
+							"    pm.expect(responseJSON.distances[0]).to.eql(50);\r",
+							"    pm.expect(responseJSON.distances[1]).to.eql(600);\r",
+							"    pm.expect(responseJSON.distances[2]).to.eql(1100);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "1e7df433-d41f-4d55-aada-d77bcc278920",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"requestType\": \"distances\",\r\n    \"earthRadius\": 6371,\r\n    \"distances\": [50, 600, 1100]\r\n}"
+				},
+				"url": "{{BASE_URL}}/api/distances"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				],
+				"id": "c1df5386-7222-4219-8b59-97753010ad1d"
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				],
+				"id": "1c26247b-06d0-462c-a8ba-665263a0bbee"
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "08dd892e-b4fd-4b3a-b5e5-c6dcc94e8c5b",
+			"key": "BASE_URL",
+			"value": "http://localhost:41300",
+			"type": "string"
+		},
+		{
+			"id": "6130f492-e743-4bff-b115-24ebfefb77b9",
+			"key": "TEAM_NAME",
+			"value": "txx team name",
+			"type": "string"
+		}
+	]
+}
